@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Vehicle Comparison</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.6.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div th:replace="~{common/header :: navbar}" />
+
+    <br>
+
+    <!--/*/ <th:block th:if="${compareType == 'doors'}"> /*/-->
+    <div class="text-center">
+        <h1><label>Comparison based on Doors</label></h1>
+    </div>
+
+    <form>
+        <div class="container" data-th-each="comparedVehicleData : ${comparedVehiclesData}">
+            <div class="form-group">
+                <h4 class="text-center" th:text="${comparedVehicleData.vehicleType + ' : ' + comparedVehicleData.modelName}"/>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="doorsDoors">Doors:</label>
+                    <input type="text" class="form-control" id="doorsDoors" data-th-value="${comparedVehicleData.doors}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="vehicleIdDoors">Vehicle ID:</label>
+                    <input type="text" class="form-control" id="vehicleIdDoors" data-th-value="${comparedVehicleData.vehicleId}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="vehicleTypeDoors">Vehicle Type:</label>
+                    <input type="text" class="form-control" id="vehicleTypeDoors" data-th-value="${comparedVehicleData.vehicleType}" disabled>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="wheelsDoors">Wheels:</label>
+                    <input type="text" class="form-control" id="wheelsDoors" data-th-value="${comparedVehicleData.wheels}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="engineSizeDoors">Engine Size:</label>
+                    <input type="text" class="form-control" id="engineSizeDoors" data-th-value="${comparedVehicleData.engineSize}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="modelNameDoors">Model Name:</label>
+                    <input type="text" class="form-control" id="modelNameDoors" data-th-value="${comparedVehicleData.modelName}" disabled>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="carryingCapacityDoors">Carrying Capacity:</label>
+                    <input type="text" class="form-control" id="carryingCapacityDoors" data-th-value="${comparedVehicleData.carryingCapacity}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="leanAngleDoors">Lean Angle:</label>
+                    <input type="text" class="form-control" id="leanAngleDoors" data-th-value="${comparedVehicleData.leanAngle}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="colourDoors">Colour:</label>
+                    <input type="text" class="form-control" id="colourDoors" data-th-value="${comparedVehicleData.colour}" disabled>
+                </div>
+            </div>
+
+        </div>
+    </form>
+    <!--/*/ </th:block> /*/-->
+
+    <!--/*/ <th:block th:if="${compareType == 'wheels'}"> /*/-->
+    <div class="text-center">
+        <h1><label>Comparison based on Wheels</label></h1>
+    </div>
+
+    <form>
+        <div class="container" data-th-each="comparedVehicleData : ${comparedVehiclesData}">
+            <div class="form-group">
+                <h4 class="text-center" th:text="${comparedVehicleData.vehicleType + ' : ' + comparedVehicleData.modelName}"/>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="wheelsWheels">Wheels:</label>
+                    <input type="text" class="form-control" id="wheelsWheels" data-th-value="${comparedVehicleData.wheels}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="vehicleIdWheels">Vehicle ID:</label>
+                    <input type="text" class="form-control" id="vehicleIdWheels" data-th-value="${comparedVehicleData.vehicleId}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="vehicleTypeWheels">Vehicle Type:</label>
+                    <input type="text" class="form-control" id="vehicleTypeWheels" data-th-value="${comparedVehicleData.vehicleType}" disabled>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="doorsWheels">Doors:</label>
+                    <input type="text" class="form-control" id="doorsWheels" data-th-value="${comparedVehicleData.doors}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="engineSizeWheels">Engine Size:</label>
+                    <input type="text" class="form-control" id="engineSizeWheels" data-th-value="${comparedVehicleData.engineSize}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="modelNameWheels">Model Name:</label>
+                    <input type="text" class="form-control" id="modelNameWheels" data-th-value="${comparedVehicleData.modelName}" disabled>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="carryingCapacityWheels">Carrying Capacity:</label>
+                    <input type="text" class="form-control" id="carryingCapacityWheels" data-th-value="${comparedVehicleData.carryingCapacity}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="leanAngleWheels">Lean Angle:</label>
+                    <input type="text" class="form-control" id="leanAngleWheels" data-th-value="${comparedVehicleData.leanAngle}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="colourWheels">Colour:</label>
+                    <input type="text" class="form-control" id="colourWheels" data-th-value="${comparedVehicleData.colour}" disabled>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--/*/ </th:block> /*/-->
+
+    <!--/*/ <th:block th:if="${compareType == 'engineSize'}"> /*/-->
+    <div class="text-center">
+        <h1><label>Comparison based on Engine Size</label></h1>
+    </div>
+
+    <form>
+        <div class="container" data-th-each="comparedVehicleData : ${comparedVehiclesData}">
+            <div class="form-group">
+                <h4 class="text-center" th:text="${comparedVehicleData.vehicleType + ' : ' + comparedVehicleData.modelName}"/>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="engineSizeEngineSize">Engine Size:</label>
+                    <input type="text" class="form-control" id="engineSizeEngineSize" data-th-value="${comparedVehicleData.engineSize}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="vehicleIdEngineSize">Vehicle ID:</label>
+                    <input type="text" class="form-control" id="vehicleIdEngineSize" data-th-value="${comparedVehicleData.vehicleId}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="vehicleTypeEngineSize">Vehicle Type:</label>
+                    <input type="text" class="form-control" id="vehicleTypeEngineSize" data-th-value="${comparedVehicleData.vehicleType}" disabled>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="wheelsEngineSize">Wheels:</label>
+                    <input type="text" class="form-control" id="wheelsEngineSize" data-th-value="${comparedVehicleData.wheels}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="doorsEngineSize">Doors:</label>
+                    <input type="text" class="form-control" id="doorsEngineSize" data-th-value="${comparedVehicleData.doors}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="modelNameEngineSize">Model Name:</label>
+                    <input type="text" class="form-control" id="modelNameEngineSize" data-th-value="${comparedVehicleData.modelName}" disabled>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="carryingCapacityEngineSize">Carrying Capacity:</label>
+                    <input type="text" class="form-control" id="carryingCapacityEngineSize" data-th-value="${comparedVehicleData.carryingCapacity}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="leanAngleEngineSize">Lean Angle:</label>
+                    <input type="text" class="form-control" id="leanAngleEngineSize" data-th-value="${comparedVehicleData.leanAngle}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="colourEngineSize">Colour:</label>
+                    <input type="text" class="form-control" id="colourEngineSize" data-th-value="${comparedVehicleData.colour}" disabled>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--/*/ </th:block> /*/-->
+
+    <!--/*/ <th:block th:if="${compareType == 'carryingCapacity'}"> /*/-->
+    <div class="text-center">
+        <h1><label>Comparison based on Carrying Capacity</label></h1>
+    </div>
+
+    <form>
+        <div class="container" data-th-each="comparedVehicleData : ${comparedVehiclesData}">
+            <div class="form-group">
+                <h4 class="text-center" th:text="${comparedVehicleData.vehicleType + ' : ' + comparedVehicleData.modelName}"/>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="carryingCapacityCarryingCapacity">Carrying Capacity:</label>
+                    <input type="text" class="form-control" id="carryingCapacityCarryingCapacity" data-th-value="${comparedVehicleData.carryingCapacity}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="vehicleIdCarryingCapacity">Vehicle ID:</label>
+                    <input type="text" class="form-control" id="vehicleIdCarryingCapacity" data-th-value="${comparedVehicleData.vehicleId}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="vehicleTypeCarryingCapacity">Vehicle Type:</label>
+                    <input type="text" class="form-control" id="vehicleTypeCarryingCapacity" data-th-value="${comparedVehicleData.vehicleType}" disabled>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="wheelsCarryingCapacity">Wheels:</label>
+                    <input type="text" class="form-control" id="wheelsCarryingCapacity" data-th-value="${comparedVehicleData.wheels}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="engineSizeCarryingCapacity">Engine Size:</label>
+                    <input type="text" class="form-control" id="engineSizeCarryingCapacity" data-th-value="${comparedVehicleData.engineSize}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="modelNameCarryingCapacity">Model Name:</label>
+                    <input type="text" class="form-control" id="modelNameCarryingCapacity" data-th-value="${comparedVehicleData.modelName}" disabled>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="doorsCarryingCapacity">Doors:</label>
+                    <input type="text" class="form-control" id="doorsCarryingCapacity" data-th-value="${comparedVehicleData.doors}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="leanAngleCarryingCapacity">Lean Angle:</label>
+                    <input type="text" class="form-control" id="leanAngleCarryingCapacity" data-th-value="${comparedVehicleData.leanAngle}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="colourCarryingCapacity">Colour:</label>
+                    <input type="text" class="form-control" id="colourCarryingCapacity" data-th-value="${comparedVehicleData.colour}" disabled>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--/*/ </th:block> /*/-->
+
+    <!--/*/ <th:block th:if="${compareType == 'leanAngle'}"> /*/-->
+    <div class="text-center">
+        <h1><label>Comparison based on Lean Angle</label></h1>
+    </div>
+
+    <form>
+        <div class="container" data-th-each="comparedVehicleData : ${comparedVehiclesData}">
+            <div class="form-group">
+                <h4 class="text-center" th:text="${comparedVehicleData.vehicleType + ' : ' + comparedVehicleData.modelName}"/>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="leanAngleLeanAngle">Lean Angle:</label>
+                    <input type="text" class="form-control" id="leanAngleLeanAngle" data-th-value="${comparedVehicleData.leanAngle}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="vehicleIdLeanAngle">Vehicle ID:</label>
+                    <input type="text" class="form-control" id="vehicleIdLeanAngle" data-th-value="${comparedVehicleData.vehicleId}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="vehicleTypeLeanAngle">Vehicle Type:</label>
+                    <input type="text" class="form-control" id="vehicleTypeLeanAngle" data-th-value="${comparedVehicleData.vehicleType}" disabled>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="wheelsLeanAngle">Wheels:</label>
+                    <input type="text" class="form-control" id="wheelsLeanAngle" data-th-value="${comparedVehicleData.wheels}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="engineSizeLeanAngle">Engine Size:</label>
+                    <input type="text" class="form-control" id="engineSizeLeanAngle" data-th-value="${comparedVehicleData.engineSize}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="modelNameLeanAngle">Model Name:</label>
+                    <input type="text" class="form-control" id="modelNameLeanAngle" data-th-value="${comparedVehicleData.modelName}" disabled>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="carryingCapacityLeanAngle">Carrying Capacity:</label>
+                    <input type="text" class="form-control" id="carryingCapacityLeanAngle" data-th-value="${comparedVehicleData.carryingCapacity}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="doorsLeanAngle">Doors:</label>
+                    <input type="text" class="form-control" id="doorsLeanAngle" data-th-value="${comparedVehicleData.doors}" disabled>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="colourLeanAngle">Colour:</label>
+                    <input type="text" class="form-control" id="colourLeanAngle" data-th-value="${comparedVehicleData.colour}" disabled>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--/*/ </th:block> /*/-->
+
+    <br>
+
+    <div th:replace="~{common/footer :: navbar}" />
+</body>
+</html>

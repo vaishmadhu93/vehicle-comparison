@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8">
+    <!--/*/ <th:block th:if="${type == 'new'}"> /*/-->
+    <title>Add Vehicles</title>
+    <!--/*/ </th:block> /*/-->
+    <!--/*/ <th:block th:if="${type == 'edit'}"> /*/-->
+    <title>Update Vehicles</title>
+    <!--/*/ </th:block> /*/-->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.6.0/css/bootstrap.min.css">
+    <script>
+        function enableDisableFunction(value) {
+            var x = document.getElementById("wheels").value;
+            if(x == 2) {
+                document.getElementById("carryingCapacity").disabled = true;
+                document.getElementById("carryingCapacity").value = 0;
+                document.getElementById("doors").disabled = true;
+                document.getElementById("doors").value = 0;
+                document.getElementById("leanAngle").disabled = false;
+                document.getElementById("vehicleType").value = 'Bike';
+            } else if (x == 4) {
+                document.getElementById("carryingCapacity").disabled = true;
+                document.getElementById("carryingCapacity").value = 0;
+                document.getElementById("leanAngle").disabled = true;
+                document.getElementById("leanAngle").value = 0.00;
+                document.getElementById("doors").disabled = false;
+                document.getElementById("vehicleType").value = 'Car';
+            } else if ((x <= 20) && (x%2 == 0) && (x > 4)) {
+                document.getElementById("carryingCapacity").disabled = false;
+                document.getElementById("carryingCapacity").value = 0;
+                document.getElementById("doors").disabled = false;
+                document.getElementById("doors").value = 0;
+                document.getElementById("leanAngle").disabled = true;
+                document.getElementById("leanAngle").value = 0.00;
+                document.getElementById("vehicleType").value = 'Lorry';
+            } else {
+                document.getElementById("carryingCapacity").disabled = true;
+                document.getElementById("doors").disabled = true;
+                document.getElementById("leanAngle").disabled = true;
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+
+    <div th:replace="~{common/header :: navbar}" />
+
+    <br>
+
+    <div th:switch="${message}">
+        <div th:case="'Failed'" class="alert alert-danger">
+            <strong>Failed!</strong> There is validation errors for the entered data.
+        </div>
+    </div>
+
+    <!--/*/ <th:block th:if="${wheelCountError == true}"> /*/-->
+    <div class="alert alert-danger">
+        <strong>Error in Wheels field:</strong> Wheels should be even and less than 20.
+    </div>
+    <!--/*/ </th:block> /*/-->
+
+    <!--/*/ <th:block th:if="${engineSizeError == true}"> /*/-->
+    <div class="alert alert-danger">
+        <strong>Error in Engine size field:</strong> Engine size should be in numeric format.
+    </div>
+    <!--/*/ </th:block> /*/-->
+
+    <!--/*/ <th:block th:if="${vehicleTypeError == true}"> /*/-->
+    <div class="alert alert-danger">
+        <strong>Error in Vehicle type field:</strong> Type of vehicle should be specified.
+    </div>
+    <!--/*/ </th:block> /*/-->
+
+    <br>
+
+    <!--/*/ <th:block th:if="${type == 'new'}"> /*/-->
+
+        <div class="text-center">
+            <h1><label>Add Vehicles:</label></h1>
+        </div>
+
+        <form th:action="@{/add-vehicle}" th:object="${vehicles}" method="POST" autocomplete="off">
+            <div>
+                <label class="form-label" for="wheels">Wheels:</label>
+                <input autocomplete="off" class="form-control" id="wheels" type="text" name="wheels" th:required="required" onchange="enableDisableFunction()"/>
+            </div>
+            <br>
+            <div>
+                <label class="form-label" for="vehicleType">Vehicle Type:</label>
+                <input autocomplete="off" class="form-control" id="vehicleType" type="text" th:required="required" name="vehicleType"/>
+            </div>
+            <br>
+            <div>
+                <label class="form-label" for="engineSize">Engine Size:</label>
+                <input autocomplete="off" class="form-control" id="engineSize" type="text" th:required="required" name="engineSize"/>
+            </div>
+            <br>
+            <div>
+                <label class="form-label" for="colour">Colour:</label>
+                <input autocomplete="off" class="form-control" id="colour" type="text" th:required="required" name="colour"/>
+            </div>
+            <br>
+            <div>
+                <label class="form-label" for="modelName">Model Name:</label>
+                <input autocomplete="off" class="form-control" id="modelName" type="text" th:required="required" name="modelName"/>
+            </div>
+            <br>
+            <div>
+                <label class="form-label" for="carryingCapacity">Carrying Capacity:</label>
+                <input autocomplete="off" class="form-control" id="carryingCapacity" type="text" th:required="required" name="carryingCapacity"/>
+            </div>
+            <br>
+            <div>
+                <label class="form-label" for="leanAngle">Lean Angle:</label>
+                <input autocomplete="off" class="form-control" id="leanAngle" type="text" th:required="required" name="leanAngle"/>
+            </div>
+            <br>
+            <div>
+                <label class="form-label" for="doors">Doors:</label>
+                <input autocomplete="off" class="form-control" id="doors" type="text" th:required="required" name="doors"/>
+            </div>
+            <br>
+            <input type="submit" class="btn btn-info" value="Submit"/>
+        </form>
+    <!--/*/ </th:block> /*/-->
+
+    <!--/*/ <th:block th:if="${type == 'edit'}"> /*/-->
+
+        <form data-th-action="@{'/update-vehicle/' + ${vehicle.vehicleId}}" th:object="${vehicles}" method="POST">
+            <div>
+                <label class="form-label" for="vehicleIdEdit">Vehicle Id:</label>
+                <input id="vehicleIdEdit" type="text" data-th-field="${vehicle.vehicleId}" disabled class="form-control form-control-inline" onchange="enableDisableFunction()"/>
+            </div>
+            <br>
+            <div>
+                <label class="form-label" for="vehicleTypeEdit">Vehicle Type:</label>
+                <input id="vehicleTypeEdit" type="text" data-th-field="${vehicle.vehicleType}" class="form-control form-control-inline"/>
+            </div>
+
+            <br>
+            <div>
+                <label class="form-label" for="wheels">Wheels:</label>
+                <input id="wheelsEdit" type="text" data-th-field="${vehicle.wheels}" autocomplete="off" th:required="required" class="form-control form-control-inline"/>
+            </div>
+            <br>
+            <div>
+                <label class="form-label" for="engineSizeEdit">Engine Size:</label>
+                <input id="engineSizeEdit" type="text" data-th-field="${vehicle.engineSize}" th:required="required" class="form-control form-control-inline"/>
+            </div>
+            <br>
+            <div>
+                <label class="form-label" for="colourEdit">Colour:</label>
+                <input id="colourEdit" type="text" data-th-field="${vehicle.colour}" th:required="required" class="form-control form-control-inline"/>
+            </div>
+            <br>
+            <div>
+                <label class="form-label" for="modelNameEdit">Model Name:</label>
+                <input id="modelNameEdit" type="text" data-th-field="${vehicle.modelName}" th:required="required" class="form-control form-control-inline"/>
+            </div>
+            <br>
+            <!--/*/ <th:block th:if="${vehicle.carryingCapacity == null}"> /*/-->
+            <div>
+                <label class="form-label" for="carryingCapacityEditNullCase">Carrying Capacity:</label>
+                <input id="carryingCapacityEditNullCase" type="text" disabled th:required="required" class="form-control form-control-inline"/>
+            </div>
+            <!--/*/ </th:block> /*/-->
+            <!--/*/ <th:block th:unless="${vehicle.carryingCapacity == null}"> /*/-->
+            <div>
+                <label class="form-label" for="carryingCapacityEdit">Carrying Capacity:</label>
+                <input id="carryingCapacityEdit" type="text" data-th-field="${vehicle.carryingCapacity}" th:required="required" class="form-control form-control-inline"/>
+            </div>
+            <!--/*/ </th:block> /*/-->
+            <br>
+            <!--/*/ <th:block th:if="${vehicle.leanAngle == null}"> /*/-->
+            <div>
+                <label class="form-label" for="leanAngleEdit">Lean Angle:</label>
+                <input id="leanAngleEditNullCase" type="text" th:required="required" disabled class="form-control form-control-inline"/>
+            </div>
+            <!--/*/ </th:block> /*/-->
+            <!--/*/ <th:block th:unless="${vehicle.leanAngle == null}"> /*/-->
+            <div>
+                <label class="form-label" for="leanAngleEdit">Lean Angle:</label>
+                <input id="leanAngleEdit" type="text" data-th-field="${vehicle.leanAngle}" th:required="required" class="form-control form-control-inline"/>
+            </div>
+            <!--/*/ </th:block> /*/-->
+            <br>
+            <!--/*/ <th:block th:if="${vehicle.doors == null}"> /*/-->
+            <div>
+                <label class="form-label" for="doorsEditNullCase">Doors:</label>
+                <input id="doorsEditNullCase" type="text" disabled th:required="required" class="form-control form-control-inline"/>
+            </div>
+            <!--/*/ </th:block> /*/-->
+            <!--/*/ <th:block th:unless="${vehicle.doors == null}"> /*/-->
+            <div>
+                <label class="form-label" for="doorsEdit">Doors:</label>
+                <input id="doorsEdit" type="text" data-th-field="${vehicle.doors}" th:required="required" class="form-control form-control-inline"/>
+            </div>
+            <!--/*/ </th:block> /*/-->
+            <br>
+            <input type="submit" class="btn btn-info" value="Update"/>
+        </form>
+    <!--/*/ </th:block> /*/-->
+
+    <br>
+
+    <div th:replace="~{common/footer :: navbar}" />
+</div>
+</body>
+</html>
