@@ -22,6 +22,10 @@ public class VehiclesValidator {
             errorsInData.put("wheelCountError", "Wheels should be even and les than 20");
         }
 
+        if (vehicles.getVehicleType().isEmpty()) {
+            errorsInData.put("vehicleTypeError", "Type of vehicle should be specified");
+        }
+
         if (!numericPattern.matcher(String.valueOf(vehicles.getEngineSize())).matches()) {
             errorsInData.put("engineSizeError", "Engine size should be in numeric format");
         }

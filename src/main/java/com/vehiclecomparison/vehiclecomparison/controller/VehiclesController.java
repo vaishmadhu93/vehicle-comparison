@@ -54,7 +54,7 @@ public class VehiclesController {
     }
 
     @PostMapping(value = "/add-vehicle")
-    public String saveVehicle(Vehicles vehicles, RedirectAttributes attr, ModelMap model) {
+    public String saveVehicle(@ModelAttribute Vehicles vehicles, RedirectAttributes attr, ModelMap model) {
         boolean validData = validateData(vehicles, model);
         if (validData) {
             vehiclesService.saveVehicle(vehicles);
@@ -81,7 +81,7 @@ public class VehiclesController {
     }
 
     @RequestMapping(value = "/update-vehicle/{id}")
-    public String updateVehicleDataById(Vehicles vehicles, @PathVariable("id") int vehicleId, RedirectAttributes attr, ModelMap model) {
+    public String updateVehicleDataById(@ModelAttribute Vehicles vehicles, @PathVariable("id") int vehicleId, RedirectAttributes attr, ModelMap model) {
         vehicles.setVehicleId(vehicleId);
         boolean validData = validateData(vehicles, model);
         if (validData) {

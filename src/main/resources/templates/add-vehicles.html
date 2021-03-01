@@ -68,6 +68,12 @@
     </div>
     <!--/*/ </th:block> /*/-->
 
+    <!--/*/ <th:block th:if="${vehicleTypeError == true}"> /*/-->
+    <div class="alert alert-danger">
+        <strong>Error in Vehicle type field:</strong> Type of vehicle should be specified.
+    </div>
+    <!--/*/ </th:block> /*/-->
+
     <br>
 
     <!--/*/ <th:block th:if="${type == 'new'}"> /*/-->
@@ -76,7 +82,7 @@
             <h1><label>Add Vehicles:</label></h1>
         </div>
 
-        <form action="/add-vehicle" method="POST" autocomplete="off">
+        <form th:action="@{/add-vehicle}" th:object="${vehicles}" method="POST" autocomplete="off">
             <div>
                 <label class="form-label" for="wheels">Wheels:</label>
                 <input autocomplete="off" class="form-control" id="wheels" type="text" name="wheels" th:required="required" onchange="enableDisableFunction()"/>
@@ -123,7 +129,7 @@
 
     <!--/*/ <th:block th:if="${type == 'edit'}"> /*/-->
 
-        <form data-th-action="@{'/update-vehicle/' + ${vehicle.vehicleId}}" method="POST">
+        <form data-th-action="@{'/update-vehicle/' + ${vehicle.vehicleId}}" th:object="${vehicles}" method="POST">
             <div>
                 <label class="form-label" for="vehicleIdEdit">Vehicle Id:</label>
                 <input id="vehicleIdEdit" type="text" data-th-field="${vehicle.vehicleId}" disabled class="form-control form-control-inline" onchange="enableDisableFunction()"/>
