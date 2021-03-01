@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vehiclecomparison.vehiclecomparison.entity.Vehicles;
 import com.vehiclecomparison.vehiclecomparison.service.VehiclesService;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -52,41 +49,51 @@ public class VehiclesControllerTest {
         String response = result.getResponse().getContentAsString();
         Assert.assertTrue(response.contains("Duke"));
         Assert.assertTrue(response.contains("Renault"));
-        Assert.assertTrue(response.contains("Mercedez"));
     }
 
-    @Ignore
     @Test
     public void addVehicleTest() throws Exception {
         Vehicles vehicle = getVehicle();
         when(vehiclesService.saveVehicle(vehicle)).thenReturn(vehicle);
         mockMvc.perform(post("/add-vehicle")
-                .content(asJsonString(vehicle))
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("wheels", String.valueOf(vehicle.getWheels()))
+                .param("engineSize", String.valueOf(vehicle.getEngineSize()))
+                .param("colour", String.valueOf(vehicle.getColour()))
+                .param("modelName", String.valueOf(vehicle.getModelName()))
+                .param("carryingCapacity", String.valueOf(vehicle.getCarryingCapacity()))
+                .param("leanAngle", String.valueOf(vehicle.getLeanAngle()))
+                .param("doors", String.valueOf(vehicle.getDoors()))
+                .param("vehicleType", String.valueOf(vehicle.getVehicleType())))
                 .andExpect(view().name("redirect:/vehicles"));
     }
 
-    @Ignore
     @Test
     public void compareVehicles() throws Exception {
         List<Vehicles> vehiclesList = getVehiclesList();
 
-        String compareType = "doors";
+        String compareType = "wheels";
+        Map<String, String> queryParamsMap = getQueryParams("24", "25");
 
-        if (compareType.equalsIgnoreCase("doors")) {
-            Comparator<Vehicles> doorComparator = Comparator.comparing(Vehicles::getDoors);
+        if (compareType.equalsIgnoreCase("wheels")) {
+            Comparator<Vehicles> doorComparator = Comparator.comparing(Vehicles::getWheels);
             vehiclesList.sort(doorComparator.reversed());
         }
 
-        when(vehiclesService.getVehicles()).thenReturn(vehiclesList);
+        when(vehiclesService.getComparedData(compareType, queryParamsMap)).thenReturn(vehiclesList);
 
-        MvcResult result = mockMvc.perform(get("/compare/vehicles/{compareType}", "doors"))
+        MvcResult result = mockMvc.perform(get("/compare/vehicles/{compareType}", "wheels")
+                .param("vid1", String.valueOf(queryParamsMap.get("vid1")))
+                .param("vid2", String.valueOf(queryParamsMap.get("vid2"))))
                 .andExpect(status().isOk())
                 .andExpect(view().name("vehicle-comparison"))
                 .andExpect(model().attribute("comparedVehiclesData", vehiclesList))
                 .andExpect(model().attribute("compareType", compareType))
                 .andReturn();
 
+        String response = result.getResponse().getContentAsString();
+        Assert.assertTrue(response.contains("Duke"));
+        Assert.assertTrue(response.contains("Renault"));
 
     }
 
@@ -114,19 +121,8 @@ public class VehiclesControllerTest {
         vehicleCar.setLeanAngle(0);
         vehicleCar.setDoors(4);
 
-        Vehicles vehicleLorry = new Vehicles();
-        vehicleLorry.setWheels(8);
-        vehicleLorry.setVehicleType("Lorry");
-        vehicleLorry.setEngineSize(300);
-        vehicleLorry.setColour("Green");
-        vehicleLorry.setModelName("Mercedez");
-        vehicleLorry.setCarryingCapacity(2000);
-        vehicleLorry.setLeanAngle(0);
-        vehicleLorry.setDoors(2);
-
         vehiclesList.add(vehicleBike);
         vehiclesList.add(vehicleCar);
-        vehiclesList.add(vehicleLorry);
 
         return vehiclesList;
 
@@ -155,6 +151,15 @@ public class VehiclesControllerTest {
         }
 
 
+    }
+
+    public Map<String,String> getQueryParams(String vid1, String vid2) {
+        Map<String,String> queryParams = new HashMap<>();
+
+        queryParams.put("vid1", vid1);
+        queryParams.put("vid2", vid2);
+
+        return queryParams;
     }
 
 }

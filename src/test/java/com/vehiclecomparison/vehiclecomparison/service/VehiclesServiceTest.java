@@ -276,7 +276,7 @@ public class VehiclesServiceTest {
         vehicle.setVehicleType("Lorry");
         vehicle.setEngineSize(300);
         vehicle.setColour("Green");
-        vehicle.setModelName("Mercedez");
+        vehicle.setModelName("Mercedes");
         vehicle.setCarryingCapacity(2000);
         vehicle.setLeanAngle(0);
         vehicle.setDoors(2);
