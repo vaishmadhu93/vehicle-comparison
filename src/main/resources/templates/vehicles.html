@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
+<head>
+    <meta charset="UTF-8">
+    <title>Vehicles</title>
+    <link rel="stylesheet" th:href="@{webjars/bootstrap/4.6.0/css/bootstrap.min.css}"/>
+    <script src="jquery-3.5.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.6.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .hidden{
+            display:none;
+        }
+        .more { color: green; }
+        .remove { color: red; }
+    </style>
+    <script>
+        $(document).ready(function(){
+            $('.more').click(function() {
+                var id = $(this).next("#vehicleId").text();
+                var selectedIds = new Array();
+                var isValueAlreadySelected = false;
+                selectedIds = ($(".vehicle-id").text()).split(" ");
+                console.log('id: ' + id );
+                console.log('selectedIds: ' + selectedIds);
+                $.each(selectedIds, function(index, value){
+                    if(id == value){
+                        isValueAlreadySelected = true;
+                        console.log('demo ' + isValueAlreadySelected);
+                    }
+                });
+                if(isValueAlreadySelected == false) {
+                    $('<div/>', { 'class': 'box' })
+                    .append($('<span/>', { text: 'Vehicle Ids selected for comparison: ' }))
+                    .append($('<span/>', { class: 'vehicle-id', text: ' ' + id }))
+                    .append($('<a/>', { href: '#', class: 'remove', id: 'deselect', text: ' Remove from compare' }))
+                    .appendTo('#container');
+                    updateLinkAndCounter();
+                    $("#container").removeClass("hidden");
+                } else {
+                    alert(id + " is already selected for comparison");
+                }
+            });
+        });
+        $(document).ready(function(){
+            $(document.body).on('click', 'a.remove', function(){
+                console.log('deselect');
+                $(this).parent().remove();
+                updateLinkAndCounterRemove();
+            });
+        });
+        function updateLinkAndCounter() {
+            var ids = $('.box .vehicle-id').map(function(i, x) {
+                var vehId = $(this).text();
+                return ['vid', ++i, '=', $.trim(vehId)].join('');
+            }).toArray();
+
+            $('a#doors').attr('href', 'compare/vehicles/doors?' + ids.join('&'));
+            $('a#doors').attr('hidden', false);
+            $('a#wheels').attr('href', 'compare/vehicles/wheels?' + ids.join('&'));
+            $('a#wheels').attr('hidden', false);
+            $('a#engineSize').attr('href', 'compare/vehicles/engineSize?' + ids.join('&'));
+            $('a#engineSize').attr('hidden', false);
+            $('a#carryingCapacity').attr('href', 'compare/vehicles/carryingCapacity?' + ids.join('&'));
+            $('a#carryingCapacity').attr('hidden', false);
+            $('a#leanAngle').attr('href', 'compare/vehicles/leanAngle?' + ids.join('&'));
+            $('a#leanAngle').attr('hidden', false);
+
+            var count = $(".box").length;
+            $("p").text(count + ' selected for comparison');
+            $("p").attr('hidden', false);
+        }
+        function updateLinkAndCounterRemove() {
+
+            var count = $(".box").length;
+            console.log("count: " + count);
+
+            if(count > 0) {
+                updateLinkAndCounter();
+            } else {
+                var ids = $('.box .vehicle-id').map(function(i, x) {
+                var vehId = $(this).text();
+                return ['vid', ++i, '=', $.trim(vehId)].join('');
+                }).toArray();
+
+                $('a#doors').attr('href', 'compare/vehicles/doors?' + ids.join('&'));
+                $('a#doors').attr('hidden', true);
+                $('a#wheels').attr('href', 'compare/vehicles/wheels?' + ids.join('&'));
+                $('a#wheels').attr('hidden', true);
+                $('a#engineSize').attr('href', 'compare/vehicles/engineSize?' + ids.join('&'));
+                $('a#engineSize').attr('hidden', true);
+                $('a#carryingCapacity').attr('href', 'compare/vehicles/carryingCapacity?' + ids.join('&'));
+                $('a#carryingCapacity').attr('hidden', true);
+                $('a#leanAngle').attr('href', 'compare/vehicles/leanAngle?' + ids.join('&'));
+                $('a#leanAngle').attr('hidden', true);
+
+                $("p").text(count + ' selected for comparison');
+                $("p").attr('hidden', true);
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+
+    <div th:replace="~{common/header :: navbar}" />
+
+    <br>
+
+    <div id="container" class="hidden">
+        <p>0 selected for comparison hidden</p>
+        <a href="" id="doors" class="btn btn-info btn-sm" hidden>Compare vehicles on doors</a>
+        <a href="" id="wheels" class="btn btn-info btn-sm" hidden>Compare vehicles on wheels</a>
+        <a href="" id="engineSize" class="btn btn-info btn-sm" hidden>Compare vehicles on engine size</a>
+        <a href="" id="carryingCapacity" class="btn btn-info btn-sm" hidden>Compare vehicles on carrying capacity</a>
+        <a href="" id="leanAngle" class="btn btn-info btn-sm" hidden>Compare vehicles on lean angle</a>
+    </div>
+
+    <br>
+
+    <div th:switch="${message}">
+        <div th:case="'Created'" class="alert alert-success">
+            <strong>Created!</strong> New vehicle has been added successfully.
+        </div>
+        <div th:case="'Updated'" class="alert alert-success">
+            <strong>Updated!</strong> Existing data has been updated successfully.
+        </div>
+        <div th:case="'Deleted'" class="alert alert-success">
+            <strong>Deleted!</strong> Existing data has been deleted successfully.
+        </div>
+    </div>
+
+    <div class="text-center">
+        <h1><label>Vehicles List:</label></h1>
+    </div>
+
+    <table class="table table-hover table-bordered">
+        <colgroup>
+            <col width="300px">
+            <col width="300px">
+            <col width="300px">
+            <col width="300px">
+            <col width="300px">
+            <col width="300px">
+            <col width="300px">
+            <col width="300px">
+            <col width="300px">
+        </colgroup>
+        <thead class="thead-dark">
+        <tr>
+            <th class="not_mapped_style" style="text-align:center" >Vehicle ID</th>
+            <th class="not_mapped_style" style="text-align:center" >Wheels</th>
+            <th class="not_mapped_style" style="text-align:center" >Vehicle Type</th>
+            <th class="not_mapped_style" style="text-align:center" >Engine Size</th>
+            <th class="not_mapped_style" style="text-align:center" >Color</th>
+            <th class="not_mapped_style" style="text-align:center" >Model Name</th>
+            <th class="not_mapped_style" style="text-align:center" >Carrying Capacity</th>
+            <th class="not_mapped_style" style="text-align:center" >Lean Angle</th>
+            <th class="not_mapped_style" style="text-align:center" >Doors</th>
+            <th class="not_mapped_style" style="text-align:center" >Delete</th>
+            <th class="not_mapped_style" style="text-align:center" >Compare</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-th-each="vehicle : ${vehiclesList}">
+            <td style="text-align: center; vertical-align: middle;" data-th-text="${vehicle.vehicleId}"></td>
+            <td style="text-align: center; vertical-align: middle;" data-th-text="${vehicle.wheels}"></td>
+            <td style="text-align: center; vertical-align: middle;" data-th-text="${vehicle.vehicleType}"></td>
+            <td style="text-align: center; vertical-align: middle;" data-th-text="${vehicle.engineSize}"></td>
+            <td style="text-align: center; vertical-align: middle;" data-th-text="${vehicle.colour}"></td>
+            <td style="text-align: center; vertical-align: middle;" data-th-text="${vehicle.modelName}"></td>
+            <!--/*/ <th:block th:if="${vehicle.carryingCapacity == null}"> /*/-->
+            <td style="text-align: center; vertical-align: middle;">N/A</td>
+            <!--/*/ </th:block> /*/-->
+            <!--/*/ <th:block th:unless="${vehicle.carryingCapacity == null}"> /*/-->
+            <td style="text-align: center; vertical-align: middle;" data-th-text="${vehicle.carryingCapacity}"></td>
+            <!--/*/ </th:block> /*/-->
+            <!--/*/ <th:block th:if="${vehicle.leanAngle == null}"> /*/-->
+            <td style="text-align: center; vertical-align: middle;">N/A</td>
+            <!--/*/ </th:block> /*/-->
+            <!--/*/ <th:block th:unless="${vehicle.leanAngle == null}"> /*/-->
+            <td style="text-align: center; vertical-align: middle;" data-th-text="${vehicle.leanAngle}"></td>
+            <!--/*/ </th:block> /*/-->
+            <!--/*/ <th:block th:if="${vehicle.doors == null}"> /*/-->
+            <td style="text-align: center; vertical-align: middle;">N/A</td>
+            <!--/*/ </th:block> /*/-->
+            <!--/*/ <th:block th:unless="${vehicle.doors == null}"> /*/-->
+            <td style="text-align: center; vertical-align: middle;" data-th-text="${vehicle.doors}"></td>
+            <!--/*/ </th:block> /*/-->
+            <td style="text-align: center; vertical-align: middle;">
+                <a data-th-href="@{'/vehicle/delete/' + ${vehicle.vehicleId}}" class="btn btn-link" role="button" >Delete</a>
+                <a data-th-href="@{'/vehicle/update/' + ${vehicle.vehicleId}}" class="btn btn-link" role="button" >Update</a>
+            </td>
+            <td style="text-align: center; vertical-align: middle;">
+                <fieldset>
+                    <label>
+                        <a href="#" id="compare" class="more" role="button">Add to compare</a>
+                        <span id="vehicleId" data-th-text="${vehicle.vehicleId}" hidden/>
+                    </label>
+                </fieldset>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+<!--    <button type="button" class="btn btn-info" id="compare_button" disabled="disabled">Compare</button>-->
+
+    <br>
+
+    <div th:replace="~{common/footer :: navbar}" />
+</div>
+</body>
+</html>

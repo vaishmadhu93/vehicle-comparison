@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.6.0/css/bootstrap.min.css">
+    <style>
+        .center {
+            margin: 0;
+            position: absolute;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{common/header :: navbar}" />
+    <br>
+    <p class="text-center">The Vehicle Comparison Application is used to save, update and compare vehicle details. Vehicles are compared based on 5 criteria</p>
+    <p class="text-center">Doors</p>
+    <p class="text-center">Wheels</p>
+    <p class="text-center">Engine Size</p>
+    <p class="text-center">Carrying Capacity</p>
+    <p class="text-center">Lean Angle</p>
+    <br>
+    <div th:replace="~{common/footer :: navbar}" />
+</body>
+</html>
